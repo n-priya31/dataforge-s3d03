@@ -1,0 +1,34 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job-02-transform
+  labels:
+    app: dataforge
+    job: transform
+spec:
+  template:
+    metadata:
+      labels:
+        app: dataforge
+        job: transform
+    spec:
+      containers:
+        - name: transform
+          image: dataforge-transform:local
+          imagePullPolicy: Never
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "64Mi"
+            limits:
+              cpu: "250m"
+              memory: "128Mi"
+          volumeMounts:
+            - name: shared-data
+              mountPath: /data
+      restartPolicy: Never
+      volumes:
+        - name: shared-data
+          persistentVolumeClaim:
+            claimName: dataforge-shared-data
+  backoffLimit: 2

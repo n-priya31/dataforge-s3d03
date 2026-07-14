@@ -1,0 +1,50 @@
+[
+  {
+    "order_id": 1001,
+    "customer": "Ravi Kumar",
+    "amount": 2450.5,
+    "region": "South"
+  },
+  {
+    "order_id": 1002,
+    "customer": "Ananya Singh",
+    "amount": 1899.0,
+    "region": "North"
+  },
+  {
+    "order_id": 1003,
+    "customer": "Mohammed Ali",
+    "amount": 3120.75,
+    "region": "West"
+  },
+  {
+    "order_id": 1004,
+    "customer": "Priya Sharma",
+    "amount": 999.99,
+    "region": "East"
+  },
+  {
+    "order_id": 1005,
+    "customer": "Karthik Rajan",
+    "amount": 5600.0,
+    "region": "South"
+  },
+  {
+    "order_id": 1006,
+    "customer": "Sneha Gupta",
+    "amount": 750.25,
+    "region": "North"
+  },
+  {
+    "order_id": 1007,
+    "customer": "Arjun Menon",
+    "amount": 4200.0,
+    "region": "West"
+  },
+  {
+    "order_id": 1008,
+    "customer": "Divya Iyer",
+    "amount": 1350.6,
+    "region": "East"
+  }
+]

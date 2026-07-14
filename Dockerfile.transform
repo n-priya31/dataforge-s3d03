@@ -1,0 +1,9 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+COPY app/transform.py /app/transform.py
+
+ENV INPUT_PATH=/data/ingested_output.json
+ENV OUTPUT_PATH=/data/transformed_report.json
+
+CMD ["python", "transform.py"]

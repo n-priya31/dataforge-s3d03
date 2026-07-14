@@ -1,0 +1,10 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+COPY app/ingestor.py /app/ingestor.py
+COPY data/sample_input.csv /app/sample_input.csv
+
+ENV INPUT_PATH=/app/sample_input.csv
+ENV OUTPUT_PATH=/data/ingested_output.json
+
+CMD ["python", "ingestor.py"]

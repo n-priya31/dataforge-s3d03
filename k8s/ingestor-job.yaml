@@ -1,0 +1,34 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job-01-ingestor
+  labels:
+    app: dataforge
+    job: ingestor
+spec:
+  template:
+    metadata:
+      labels:
+        app: dataforge
+        job: ingestor
+    spec:
+      containers:
+        - name: ingestor
+          image: dataforge-ingestor:local
+          imagePullPolicy: Never
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "64Mi"
+            limits:
+              cpu: "250m"
+              memory: "128Mi"
+          volumeMounts:
+            - name: shared-data
+              mountPath: /data
+      restartPolicy: Never
+      volumes:
+        - name: shared-data
+          persistentVolumeClaim:
+            claimName: dataforge-shared-data
+  backoffLimit: 2
