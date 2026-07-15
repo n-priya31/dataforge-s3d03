@@ -12,19 +12,22 @@ INPUT_PATH = os.environ.get("INPUT_PATH", "/data/ingested_output.json")
 OUTPUT_PATH = os.environ.get("OUTPUT_PATH", "/data/transformed_report.json")
 
 
+def aggregate_regions(records):
+    totals = defaultdict(lambda: {"order_count": 0, "total_amount": 0.0})
+    for r in records:
+        region = r.get("region", "unknown")
+        totals[region]["order_count"] += 1
+        totals[region]["total_amount"] += float(r["amount"])
+    return {region: stats for region, stats in totals.items()}
+
+
 def main():
     print(f"[transform] starting, reading from {INPUT_PATH}", flush=True)
 
     with open(INPUT_PATH) as f:
         records = json.load(f)
 
-    totals = defaultdict(lambda: {"order_count": 0, "total_amount": 0.0})
-    for r in records:
-        region = r.get("region", "unknown")
-        totals[region]["order_count"] += 1
-        totals[region]["total_amount"] += float(r["amount"])
-
-    report = {region: stats for region, stats in totals.items()}
+    report = aggregate_regions(records)
 
     with open(OUTPUT_PATH, "w") as f:
         json.dump(report, f, indent=2)

@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dataforge-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dataforge-worker
+  template:
+    metadata:
+      labels:
+        app: dataforge-worker
+    spec:
+      containers:
+        - name: worker
+          image: dataforge-worker:local
+          imagePullPolicy: Never
+          resources:
+            requests:
+              cpu: "100m"
+            limits:
+              cpu: "200m"

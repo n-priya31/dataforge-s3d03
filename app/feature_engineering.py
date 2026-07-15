@@ -1,8 +1,6 @@
 """
 JOB-03: Feature Engineering
-Reads JOB-02's regional report and derives simple features:
-average sale per region, highest region by revenue, and a
-"high-value region" flag for reporting/anomaly-detection use later.
+Reads JOB-02's regional report and derives simple features.
 """
 import json
 import os
@@ -13,12 +11,7 @@ OUTPUT_PATH = os.environ.get("OUTPUT_PATH", "/data/feature_report.json")
 HIGH_VALUE_THRESHOLD = float(os.environ.get("HIGH_VALUE_THRESHOLD", "5000"))
 
 
-def main():
-    print(f"[feature-eng] starting, reading from {INPUT_PATH}", flush=True)
-
-    with open(INPUT_PATH) as f:
-        report = json.load(f)
-
+def compute_features(report, threshold=HIGH_VALUE_THRESHOLD):
     features = {}
     for region, stats in report.items():
         count = stats["order_count"]
@@ -28,9 +21,18 @@ def main():
             "order_count": count,
             "total_amount": total,
             "avg_order_value": round(avg, 2),
-            "high_value_region": total >= HIGH_VALUE_THRESHOLD,
+            "high_value_region": total >= threshold,
         }
+    return features
 
+
+def main():
+    print(f"[feature-eng] starting, reading from {INPUT_PATH}", flush=True)
+
+    with open(INPUT_PATH) as f:
+        report = json.load(f)
+
+    features = compute_features(report)
     top_region = max(features, key=lambda r: features[r]["total_amount"])
     features["_summary"] = {"top_region_by_revenue": top_region}
 
